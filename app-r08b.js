@@ -1,0 +1,5 @@
+let pendingLogo=null;
+function previewCompanyLogo(file){if(!file)return;if(file.size>800000)return toast('Logo bitte unter 800 KB','err');const r=new FileReader();r.onload=()=>{pendingLogo=r.result;document.getElementById('logoPreview').innerHTML=`<img src="${pendingLogo}" style="max-width:190px;max-height:100px;object-fit:contain;border:1px solid var(--line);border-radius:12px;padding:8px">`};r.readAsDataURL(file)}
+function saveCompany(){db.company.name=v('coName');db.company.address=v('coAddress');db.company.phone=v('coPhone');db.company.email=v('coEmail');if(pendingLogo)db.company.logo=pendingLogo;pendingLogo=null;save();render();toast('Unternehmensprofil gespeichert')}
+function exportBackup(){downloadBlob(`ION_BAU_Backup_${today()}.json`,'application/json',JSON.stringify(db,null,2))}
+function importBackup(file){if(!file)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x.users||!x.projects)throw 0;db=x;migrate();save();render();toast('Backup importiert')}catch(e){toast('Ungültiges Backup','err')}};r.readAsText(file)}
