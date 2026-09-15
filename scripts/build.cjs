@@ -1,0 +1,1 @@
+const fs=require('node:fs'),path=require('node:path');fs.mkdirSync('public',{recursive:true});for(const name of fs.readdirSync('.'))if(/^(index\.html|styles\.css|design-v2\.css|domain\.js|upgrade\.js|integration\.js|app-.*\.js|sw\.js|manifest\.webmanifest)$/.test(name))fs.copyFileSync(name,path.join('public',name));console.log('Static client built; API source excluded.');
