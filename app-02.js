@@ -12,5 +12,6 @@ function canProject(p){return isOffice()||p.members.includes(user()?.id)}
 function toast(msg,type='ok'){const el=document.createElement('div');el.className='toast '+type;el.textContent=msg;document.getElementById('toastRoot').appendChild(el);setTimeout(()=>el.remove(),2600)}
 function openModal(title,body,foot='',wide=false){document.body.classList.add('modal-open');document.getElementById('modalRoot').innerHTML=`<div class="modal-backdrop" onclick="if(event.target===this)closeModal()"><div class="modal ${wide?'wide':''}"><div class="modal-head"><h2>${title}</h2><button class="xbtn" onclick="closeModal()">×</button></div><div class="modal-body">${body}</div>${foot?`<div class="modal-foot">${foot}</div>`:''}</div></div>`}
 function closeModal(){document.body.classList.remove('modal-open');document.getElementById('modalRoot').innerHTML=''}
-function audit(action,entity,id){db.audit.unshift({id:uid('au'),at:new Date().toISOString(),userId:user()?.id,action,entity,entityId:id});save()}
+async function audit(action,entity,id){db.audit.unshift({id:uid('au'),at:new Date().toISOString(),userId:user()?.id,action,entity,entityId:id});await save()}
 function statusPill(s){let c=['In Ausführung','Erledigt','Geliefert','Genehmigt'].includes(s)?'green':['Überfällig','Abgelehnt','Storniert'].includes(s)?'red':['Hoch','Unterwegs','Krank'].includes(s)?'orange':['Geplant','Bestellt','In Arbeit'].includes(s)?'blue':'gray';return `<span class="pill ${c}">${esc(s)}</span>`}
+
